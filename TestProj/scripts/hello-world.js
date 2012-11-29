@@ -1,4 +1,4 @@
-﻿// JavaScript Document
+// JavaScript Document
 
 // Wait for PhoneGap to load
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -10,6 +10,30 @@ function onDeviceReady() {
 
 function getLocation() {
     navigator.geolocation.getCurrentPosition(onGeolocationSuccess, onGeolocationError);
+}
+
+//=======================Login Page Operations=======================//
+function ddlProjectsOnChange(){
+    $("#rdpDateTaken").kendoDatePicker();
+    
+    document.getElementById("divPhoto").style.display = "block";
+    var portalKey = $("#ddlProjects").val();
+    $("#ddlDirection").kendoDropDownList({
+        dataTextField: "Direction",
+        dataValueField: "FieldLogDirectionKey",
+        dataSource: {
+            transport: {
+                read: {
+                    url: "http://monoservicetest.trihydro.com/MobilePhoto/PhotoService.svc/GetDirections",
+                    data: {portalKey: portalKey},
+                    datatype: "json",
+                }
+            },
+            schema: {
+                data: "d"
+            }
+        }
+    });
 }
 
 //=======================Say Hello (Page 1) Operations=======================//
