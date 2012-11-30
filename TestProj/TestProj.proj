@@ -54,12 +54,12 @@
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="kendo\js\jquery.min.js" />
-    <Content Include="kendo\js\kendo.datepicker.js" />
     <Content Include="kendo\js\kendo.dropdownlist.js" />
     <Content Include="kendo\js\kendo.list.js" />
     <Content Include="kendo\js\kendo.mobile.js" />
     <Content Include="kendo\js\kendo.mobile.min.js" />
     <Content Include="kendo\js\kendo.popup.js" />
+    <Content Include="kendo\js\kendo.upload.js" />
     <Content Include="kendo\styles\images\ios-sprite.png" />
     <Content Include="kendo\styles\images\icons.png" />
     <Content Include="kendo\styles\images\iconmasks.svg" />

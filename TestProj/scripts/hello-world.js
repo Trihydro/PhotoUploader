@@ -1,11 +1,16 @@
 // JavaScript Document
 
+var pictureSource;
+var destinationType;
 // Wait for PhoneGap to load
 document.addEventListener("deviceready", onDeviceReady, false);
 
 // PhoneGap is ready
 function onDeviceReady() {
     getLocation();
+    
+    pictureSource = navigator.camera.PictureSourceType;
+    destinationType = navigator.camera.DestinationType;
 }
 
 function getLocation() {
@@ -13,28 +18,41 @@ function getLocation() {
 }
 
 //=======================Login Page Operations=======================//
-function ddlProjectsOnChange(){
-    $("#rdpDateTaken").kendoDatePicker();
-    
-    document.getElementById("divPhoto").style.display = "block";
-    var portalKey = $("#ddlProjects").val();
-    $("#ddlDirection").kendoDropDownList({
-        dataTextField: "Direction",
-        dataValueField: "FieldLogDirectionKey",
-        dataSource: {
-            transport: {
-                read: {
-                    url: "http://monoservicetest.trihydro.com/MobilePhoto/PhotoService.svc/GetDirections",
-                    data: {portalKey: portalKey},
-                    datatype: "json",
-                }
-            },
-            schema: {
-                data: "d"
-            }
-        }
-    });
+function UploadData(){
+    var upload = $("#fileUpload").data("kendoUpload");
+    alert("uploading!");
 }
+
+function getPhoto(source) {
+      // Retrieve image file location from specified source
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, 
+        destinationType: destinationType.FILE_URI,
+        sourceType: source });
+    } 
+
+function onPhotoURISuccess(imageURI) {
+      // Uncomment to view the image file URI 
+      // console.log(imageURI);
+
+      // Get image handle
+      //
+      var largeImage = document.getElementById('largeImage');
+
+      // Unhide image elements
+      //
+      largeImage.style.display = 'block';
+
+      // Show the captured photo
+      // The inline CSS rules are used to resize the image
+      //
+      largeImage.src = imageURI;
+    alert(imageURI);
+    }
+
+function onFail(message) {
+      alert('Failed because: ' + message);
+    }
+
 
 //=======================Say Hello (Page 1) Operations=======================//
 function sayHello() {

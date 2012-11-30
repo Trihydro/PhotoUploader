@@ -5,13 +5,16 @@
         <meta charset="utf-8" />
         <script src="cordova.js"></script>
         <script src="kendo/js/jquery.min.js"></script>
+        <script src="kendo/js/kendo.mobile.js"></script>
         <script src="kendo/js/kendo.mobile.min.js"></script>
         <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
         <script src="scripts/hello-world.js"></script>
         <script src="kendo/js/kendo.list.js"></script>
         <script src="kendo/js/kendo.popup.js"></script>
         <script src="kendo/js/kendo.dropdownlist.js"></script>
-        <script src="kendo/js/kendo.datepicker.js"></script>
+        <script src="kendo/js/kendo.upload.js"></script>
+        
+        
 
         <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
         <link href="styles/main.css" rel="stylesheet" />
@@ -72,10 +75,10 @@
                     </tr>
                     <tr>
                         <td>
-                            Date Taken:
+                            Description:
                         </td>
                         <td>
-                            <input id="rdpDateTaken" />
+                            <input id="description" />
                         </td>
                     </tr>
                     <tr>
@@ -91,8 +94,21 @@
                             <input id="ddlDirection" />
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            Photo:
+                        </td>
+                        <td>
+                            <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button>
+                        </td>
+                    </tr>
                 </table>
+                <br />
+                <img style="display:none;" id="largeImage" src="" />
+                <br/>
+                <a id="uploadButton" data-role="button" data-click="UploadData" data-icon="action">Upload Data</a>
             </div>
+            
             <br/>
         </div>
 
@@ -212,8 +228,7 @@
                 
             }
             
-            function ddlProjectsOnChange(){
-                //$("#rdpDateTaken").kendoDatePicker();
+            function ddlProjectsOnChange(){                
                 document.getElementById("divPhoto").style.display = "block";
                 var portalKey = $("#ddlProjects").val();
                 $("#ddlDirection").kendoDropDownList({
@@ -233,6 +248,9 @@
                     }
                 });
             }
+
+            
+            
         </script>
     </body>
 </html>
