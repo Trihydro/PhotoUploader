@@ -2,6 +2,7 @@
 
 var pictureSource;
 var destinationType;
+var fileName;
 // Wait for PhoneGap to load
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -31,23 +32,40 @@ function getPhoto(source) {
     } 
 
 function onPhotoURISuccess(imageURI) {
-      // Uncomment to view the image file URI 
-      // console.log(imageURI);
+    var imgStr = imageURI.toString();
+    var options = new FileUploadOptions();
+    options.fileKey = "file";
+    options.fileName = imgStr.substring(imgStr.lastIndexOf("/") + 1);
+    options.mimeType = "image/jpeg";
+    
+    fileName = imgStr.substring(imgStr.lastIndexOf("/") + 1) + ".jpg";    
+    var ft = new FileTransfer();
+    ft.upload(imageURI, "http://monoservicetest.trihydro.com/MobilePhoto/PhotoUpload.aspx", win, onFail, options);  
+    
+}
 
-      // Get image handle
-      //
-      var largeImage = document.getElementById('largeImage');
-
-      // Unhide image elements
-      //
-      largeImage.style.display = 'block';
-
-      // Show the captured photo
-      // The inline CSS rules are used to resize the image
-      //
-      largeImage.src = imageURI;
-    alert(imageURI);
-    }
+function win(r){
+    var largeImage = document.getElementById('largeImage');
+    var projectKey = $("#ddlProjects").val();
+    var directionKey = $("#ddlDirection").val();
+    var photographer = document.getElementById('photographer').value;
+    var descrip = document.getElementById('description').value;
+    
+    
+    $.ajax({
+        type: "GET",
+        url: "http://monoservicetest.trihydro.com/MobilePhoto/PhotoService.svc/UploadPhoto",
+        data: { projectKey: projectKey, directionKey: directionKey, photographer: photographer, description: descrip, filename: fileName },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(){
+            alert("Your photo was successfully uploaded!");
+        },
+        error: function(){
+            alert("there was an error");
+        },
+    })
+}
 
 function onFail(message) {
       alert('Failed because: ' + message);
