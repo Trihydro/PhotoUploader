@@ -7,21 +7,97 @@ var fileName;
 document.addEventListener("deviceready", onDeviceReady, false);
 
 // PhoneGap is ready
-function onDeviceReady() {
-    getLocation();
-    
+function onDeviceReady() {    
     pictureSource = navigator.camera.PictureSourceType;
     destinationType = navigator.camera.DestinationType;
 }
 
-function getLocation() {
-    navigator.geolocation.getCurrentPosition(onGeolocationSuccess, onGeolocationError);
+//=======================Login Page Operations=======================//
+function LoginUser(){
+    document.getElementById("divPhoto").style.display = "none";
+    var userName = document.getElementById('txtUsername').value;
+    var passWord = document.getElementById('pass').value;
+    
+    $.ajax({
+        type: "GET",
+        url: "http://monoservicetest.trihydro.com/MobilePhoto/PhotoService.svc/LoginUser",
+        data: { userName: userName, password: passWord },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data){                        
+            if(data.d == "-1"){
+                alert("Incorrect username or password");
+                app.navigate("#tabstrip-home");
+                return;
+            }
+            app.navigate("#tabstrip-uiinteraction");
+            
+            $("#ddlProjects").kendoDropDownList({
+                change: ddlProjectsOnChange,
+                dataTextField: "PortalName",
+                dataValueField: "PortalKey",
+                optionLabel: "Select a Project...",
+                dataSource:{
+                    transport: {
+                        read: {
+                            url: "http://monoservicetest.trihydro.com/MobilePhoto/PhotoService.svc/GetProjects",
+                            data: { userkey: data.d },
+                            dataType: "json",
+                        }
+                    },
+                    schema: {
+                        data: "d"
+                    }
+                },
+            });
+            
+            $("#datePicker").kendoDatePicker();
+        },
+        error: function(data){
+            alert("Incorrect username or password" + data);
+        },
+    });
 }
 
-//=======================Login Page Operations=======================//
+function ddlProjectsOnChange(){      
+    document.getElementById("divPhoto").style.display = "block";
+    var portalKey = $("#ddlProjects").val();
+    $("#ddlDirection").kendoDropDownList({
+        dataTextField: "Direction",
+        dataValueField: "DirectionKey",
+        optionLabel: "Select a Direction...",
+        dataSource: {
+            transport: {
+                read: {
+                    url: "http://monoservicetest.trihydro.com/MobilePhoto/PhotoService.svc/GetDirections",
+                    data: {portalKey: portalKey},
+                    datatype: "json",
+                }
+            },
+            schema: {
+                data: "d"
+            }
+        }
+    });
+}
+
 function UploadData(){
     var upload = $("#fileUpload").data("kendoUpload");
-    alert("uploading!");
+    if(validator.validate()){
+        var largeImage = document.getElementById('largeImage');
+        var imgStr = largeImage.src.toString();
+        
+        var options = new FileUploadOptions();
+        options.fileKey = "file";
+        options.fileName = imgStr.substring(imgStr.lastIndexOf("/") + 1);
+        options.mimeType = "image/jpeg";
+        fileName = imgStr.substring(imgStr.lastIndexOf("/") + 1) + ".jpg";    
+        var ft = new FileTransfer();
+        ft.upload(imgStr, "http://monoservicetest.trihydro.com/MobilePhoto/PhotoUpload.aspx", win, onFail, options);
+    }
+    else{
+        alert('The required fields are not filled in correctly');
+    }
 }
 
 function getPhoto(source) {
@@ -31,17 +107,10 @@ function getPhoto(source) {
         sourceType: source });
     } 
 
-function onPhotoURISuccess(imageURI) {
-    var imgStr = imageURI.toString();
-    var options = new FileUploadOptions();
-    options.fileKey = "file";
-    options.fileName = imgStr.substring(imgStr.lastIndexOf("/") + 1);
-    options.mimeType = "image/jpeg";
-    
-    fileName = imgStr.substring(imgStr.lastIndexOf("/") + 1) + ".jpg";    
-    var ft = new FileTransfer();
-    ft.upload(imageURI, "http://monoservicetest.trihydro.com/MobilePhoto/PhotoUpload.aspx", win, onFail, options);  
-    
+function onPhotoURISuccess(imageURI) { 
+    var largeImage = document.getElementById('largeImage');
+    largeImage.src = imageURI;
+    largeImage.style.display = "block";
 }
 
 function win(r){
@@ -50,12 +119,14 @@ function win(r){
     var directionKey = $("#ddlDirection").val();
     var photographer = document.getElementById('photographer').value;
     var descrip = document.getElementById('description').value;
-    
+    var userName = document.getElementById('txtUsername').value;
+    var passWord = document.getElementById('pass').value;
+    var date = $("#datePicker").val();
     
     $.ajax({
         type: "GET",
         url: "http://monoservicetest.trihydro.com/MobilePhoto/PhotoService.svc/UploadPhoto",
-        data: { projectKey: projectKey, directionKey: directionKey, photographer: photographer, description: descrip, filename: fileName },
+        data: { projectKey: projectKey, directionKey: directionKey, photographer: photographer, description: descrip, filename: fileName, userName: userName, password: passWord, date: date },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(){
@@ -69,52 +140,4 @@ function win(r){
 
 function onFail(message) {
       alert('Failed because: ' + message);
-    }
-
-
-//=======================Say Hello (Page 1) Operations=======================//
-function sayHello() {
-    var sayHelloInputElem = document.getElementById('helloWorldInput');
-    var sayHelloTextElem = document.getElementById('helloWorldText');
-    var inputText = document.getElementById('txtName');
-
-    sayHelloTextElem.innerHTML = 'Hello, ' + inputText.value + '!';
-    sayHelloTextElem.style.display = 'block';
-    sayHelloInputElem.style.display = 'none';
-}
-
-function sayHelloReset() {
-    var sayHelloInputElem = document.getElementById('helloWorldInput');
-    var sayHelloTextElem = document.getElementById('helloWorldText');
-    var inputText = document.getElementById('txtName');
-
-    inputText.value = '';
-    sayHelloTextElem.style.display = 'none';
-    sayHelloInputElem.style.display = 'block';
-}
-
-//=======================Geolocation Operations=======================//
-// onGeolocationSuccess Geolocation
-function onGeolocationSuccess(position) {
-    // Use Google API to get the location data for the current coordinates
-    var geocoder = new google.maps.Geocoder();
-    var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    geocoder.geocode({ "latLng": latlng }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            if ((results.length > 1) && results[1]) {
-                $("#myLocation").html(results[1].formatted_address);
-            }
-        }
-    });
-
-    // Use Google API to get a map of the current location
-    // http://maps.googleapis.com/maps/api/staticmap?size=280x300&maptype=hybrid&zoom=16&markers=size:mid%7Ccolor:red%7C42.375022,-71.273729&sensor=true
-    var googleApis_map_Url = 'http://maps.googleapis.com/maps/api/staticmap?size=300x300&maptype=hybrid&zoom=16&sensor=true&markers=size:mid%7Ccolor:red%7C' + latlng;
-    var mapImg = '<img src="' + googleApis_map_Url + '" />';
-    $("#map_canvas").html(mapImg);
-}
-
-// onGeolocationError Callback receives a PositionError object
-function onGeolocationError(error) {
-    $("#myLocation").html("<span class='err'>" + error.message + "</span>");
 }

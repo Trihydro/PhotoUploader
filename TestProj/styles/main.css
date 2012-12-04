@@ -24,3 +24,12 @@ body
     color: black;
     padding: 7px;
 }
+
+#required
+{
+    
+}
+
+.invalid {
+    color: red;
+}

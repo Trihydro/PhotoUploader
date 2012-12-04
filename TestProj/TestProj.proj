@@ -28,6 +28,7 @@
     <Folder Include="App_Resources\Android\drawable-ldpi">
       <Platform>Android</Platform>
     </Folder>
+    <Folder Include="kendo\styles\Default" />
     <Folder Include="kendo\styles\Textures" />
   </ItemGroup>
   <ItemGroup>
@@ -54,12 +55,23 @@
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="kendo\js\jquery.min.js" />
+    <Content Include="kendo\js\kendo.calendar.js" />
+    <Content Include="kendo\js\kendo.core.js" />
+    <Content Include="kendo\js\kendo.datepicker.js" />
     <Content Include="kendo\js\kendo.dropdownlist.js" />
+    <Content Include="kendo\js\kendo.fx.js" />
     <Content Include="kendo\js\kendo.list.js" />
     <Content Include="kendo\js\kendo.mobile.js" />
     <Content Include="kendo\js\kendo.mobile.min.js" />
     <Content Include="kendo\js\kendo.popup.js" />
     <Content Include="kendo\js\kendo.upload.js" />
+    <Content Include="kendo\styles\Default\editor.png" />
+    <Content Include="kendo\styles\Default\imagebrowser.png" />
+    <Content Include="kendo\styles\Default\loading-image.gif" />
+    <Content Include="kendo\styles\Default\loading.gif" />
+    <Content Include="kendo\styles\Default\slider-h.gif" />
+    <Content Include="kendo\styles\Default\slider-v.gif" />
+    <Content Include="kendo\styles\Default\sprite.png" />
     <Content Include="kendo\styles\images\ios-sprite.png" />
     <Content Include="kendo\styles\images\icons.png" />
     <Content Include="kendo\styles\images\iconmasks.svg" />
