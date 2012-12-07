@@ -4,21 +4,8 @@
         <title></title>
         <meta charset="utf-8" />
         <script src="cordova.js"></script>
-        <script src="kendo/js/jquery.min.js"></script>
-        <script src="kendo/js/kendo.core.js"></script>
-        <script src="kendo/js/kendo.mobile.js"></script>
-        <script src="kendo/js/kendo.mobile.min.js"></script>
-        <script src="scripts/hello-world.js"></script>
-        <script src="kendo/js/kendo.list.js"></script>
-        <script src="kendo/js/kendo.popup.js"></script>
-        <script src="kendo/js/kendo.dropdownlist.js"></script>
-        <script src="kendo/js/kendo.upload.js"></script>
-        <script src="kendo/js/kendo.fx.js"></script>
-        <script src="kendo/js/kendo.calendar.js"></script>
-        <script src="kendo/js/kendo.datepicker.js"></script>
+        <script data-main="scripts/main.js" src="scripts/require.js"></script>
         
-        
-
         <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
         <link href="styles/main.css" rel="stylesheet" />
         <link href="kendo/styles/kendo.common.css" rel="stylesheet" />
@@ -26,29 +13,27 @@
     </head>
     <body>
         <div data-role="view" id="tabstrip-home" data-title="Hello World!">
-            <h1>Welcome!</h1>
-            <h2>Please log in...</h2>
-            <p>
-                <table>
-                    <tr>
-                        <td>
-                            Username:    
-                        </td>
-                        <td>
-                            <input type="text" id="txtUsername" value="" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Password:
-                        </td>
-                        <td>
-                            <input type="password" id="pass" />
-                        </td>
-                    </tr>
-                </table>
-                <a id="loginButton" data-role="button" data-click="LoginUser" data-icon="compose">Log in</a>
-            </p>
+            <h1>Trihydro Login</h1>
+            <table>
+                <tr>
+                    <td>
+                        Username:
+                    </td>
+                    <td>
+                        <input type="text" id="txbUsername" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Password:
+                    </td>
+                    <td>
+                        <input type="password" id="txbPassword" />
+                    </td>
+                </tr>
+            </table>
+            <input type="button" value="Login" onClick="LoginUser()" />
+            <div id="divError" style="color:red;"></div>
         </div>
 
         <div data-role="view" id="tabstrip-uiinteraction" data-title="UI Interaction">
@@ -131,7 +116,6 @@
         </div>
 
         <div data-role="view" id="tabstrip-geolocation" data-title="Geolocation">
-            <h1>Geo</h1>
             <!--<div id="geoLocationContainer">
                 <div id="myLocation">Unable to get location information. Please check your network connection and try again.</div>
                 <a id="refreshMap" data-role="button" data-click="getLocation" data-icon="refresh">Refresh Location</a>
@@ -140,12 +124,8 @@
         </div>
 
         <script>   
-            
-            var app = new kendo.mobile.Application(document.body, { transition: "slide", layout: "mobile-tabstrip" });
-            var validator = $("#divPhoto").kendoValidator().data("kendoValidator");
-            $(document).ready(function(){
-                app.navigate("#tabstrip-home");
-            });
+            var app;
+            var validator;
             
         </script>
     </body>

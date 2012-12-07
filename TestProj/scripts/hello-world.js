@@ -13,7 +13,7 @@ function onDeviceReady() {
 }
 
 //=======================Login Page Operations=======================//
-function LoginUser(){
+/*function LoginUser(){
     document.getElementById("divPhoto").style.display = "none";
     var userName = document.getElementById('txtUsername').value;
     var passWord = document.getElementById('pass').value;
@@ -57,7 +57,7 @@ function LoginUser(){
             alert("Incorrect username or password" + data);
         },
     });
-}
+}*/
 
 function ddlProjectsOnChange(){      
     document.getElementById("divPhoto").style.display = "block";
@@ -114,19 +114,16 @@ function onPhotoURISuccess(imageURI) {
 }
 
 function win(r){
-    var largeImage = document.getElementById('largeImage');
     var projectKey = $("#ddlProjects").val();
     var directionKey = $("#ddlDirection").val();
     var photographer = document.getElementById('photographer').value;
     var descrip = document.getElementById('description').value;
-    var userName = document.getElementById('txtUsername').value;
-    var passWord = document.getElementById('pass').value;
     var date = $("#datePicker").val();
     
     $.ajax({
         type: "GET",
         url: "http://monoservicetest.trihydro.com/MobilePhoto/PhotoService.svc/UploadPhoto",
-        data: { projectKey: projectKey, directionKey: directionKey, photographer: photographer, description: descrip, filename: fileName, userName: userName, password: passWord, date: date },
+        data: { projectKey: projectKey, directionKey: directionKey, photographer: photographer, description: descrip, filename: fileName, token: token, date: date },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(){
