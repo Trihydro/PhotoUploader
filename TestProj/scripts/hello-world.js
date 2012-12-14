@@ -85,6 +85,10 @@ function UploadData(){
     var upload = $("#fileUpload").data("kendoUpload");
     if(validator.validate()){
         var largeImage = document.getElementById('largeImage');
+        var opts = {img: 'Images/ajax-loader.gif', hide: true, height: 48, width: 48, position: 'center'};
+        var img1 = $("#tabstrip-uiinteraction");
+        img1.spinner(opts);
+        
         var imgStr = largeImage.src.toString();
         
         var options = new FileUploadOptions();
@@ -127,7 +131,17 @@ function win(r){
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function(){
+            var img1 = $("#tabstrip-uiinteraction");
+            img1.spinner('remove');
             alert("Your photo was successfully uploaded!");
+            
+            var largeImage = document.getElementById('largeImage');
+            largeImage.src = "";
+            largeImage.style.display="none";
+            $("#description").val("");
+            $("#ddlDirection").val("").data("kendoDropDownList").text("Select a Direction...");
+            $("#datePicker").data("kendoDatePicker").value(null);
+            
         },
         error: function(){
             alert("there was an error");

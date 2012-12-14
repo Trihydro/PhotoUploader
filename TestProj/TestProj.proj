@@ -32,6 +32,7 @@
     </Folder>
     <Folder Include="kendo\styles\Default" />
     <Folder Include="kendo\styles\Textures" />
+    <Folder Include="Images" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="App_Resources\iOS\icon.png" />
@@ -55,6 +56,7 @@
     <Resource Include="App_Resources\Android\drawable-ldpi\icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\ajax-loader.gif" />
     <Content Include="index.html" />
     <Content Include="kendo\js\jquery.min.js" />
     <Content Include="kendo\js\kendo.calendar.js" />
@@ -84,6 +86,7 @@
     <Content Include="kendo\styles\textures\glass.png" />
     <Content Include="kendo\styles\textures\highlight.png" />
     <Content Include="scripts\hello-world.js" />
+    <Content Include="scripts\jquery.spinner.js" />
     <Content Include="scripts\login.js" />
     <Content Include="scripts\main.js" />
     <Content Include="scripts\require.js" />
