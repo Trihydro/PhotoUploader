@@ -3,6 +3,8 @@ require(["../kendo/js/jquery.min", "../kendo/js/kendo.core", "../kendo/js/kendo.
     validator = $("#divPhoto").kendoValidator().data("kendoValidator");
     
     $(document).ready(function(){
+        var home = document.getElementById('tabstrip-home');
+        home.style.visibility = "visible";
         app.navigate("#tabstrip-home");
     });
 });

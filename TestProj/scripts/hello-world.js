@@ -12,52 +12,9 @@ function onDeviceReady() {
     destinationType = navigator.camera.DestinationType;
 }
 
-//=======================Login Page Operations=======================//
-/*function LoginUser(){
-    document.getElementById("divPhoto").style.display = "none";
-    var userName = document.getElementById('txtUsername').value;
-    var passWord = document.getElementById('pass').value;
-    
-    $.ajax({
-        type: "GET",
-        url: "http://monoservicetest.trihydro.com/MobilePhoto/PhotoService.svc/LoginUser",
-        data: { userName: userName, password: passWord },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function(data){                        
-            if(data.d == "-1"){
-                alert("Incorrect username or password");
-                app.navigate("#tabstrip-home");
-                return;
-            }
-            app.navigate("#tabstrip-uiinteraction");
-            
-            $("#ddlProjects").kendoDropDownList({
-                change: ddlProjectsOnChange,
-                dataTextField: "PortalName",
-                dataValueField: "PortalKey",
-                optionLabel: "Select a Project...",
-                dataSource:{
-                    transport: {
-                        read: {
-                            url: "http://monoservicetest.trihydro.com/MobilePhoto/PhotoService.svc/GetProjects",
-                            data: { userkey: data.d },
-                            dataType: "json",
-                        }
-                    },
-                    schema: {
-                        data: "d"
-                    }
-                },
-            });
-            
-            $("#datePicker").kendoDatePicker();
-        },
-        error: function(data){
-            alert("Incorrect username or password" + data);
-        },
-    });
-}*/
+function refreshProjects(){
+    $("#ddlDirection").data("kendoDropDownList")
+}
 
 function ddlProjectsOnChange(){      
     document.getElementById("divPhoto").style.display = "block";

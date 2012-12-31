@@ -27,6 +27,8 @@ function LoginUser(){
        dataType: "json",
        success: function(data){
            //Update these to real values...
+           var div = document.getElementById('tabstrip-uiinteraction');
+           div.style.visibility = "visible";
            if(data.d != null && data.d != -1){
                token = data.d;
                app.navigate("#tabstrip-uiinteraction");
